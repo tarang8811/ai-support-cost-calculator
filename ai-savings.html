@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Support Savings Calculator — Agent Hours &amp; Cost AI Deflection Saves</title>
+<meta name="description" content="Free calculator: see how many agent hours, full-time equivalents and dollars AI ticket deflection frees up per year. Adjust volume, handle time, deflection rate and agent cost." />
+<link rel="canonical" href="https://tarang8811.github.io/ai-support-cost-calculator/ai-savings.html" />
+<meta property="og:title" content="AI Support Savings Calculator" />
+<meta property="og:description" content="See the agent hours, FTEs and dollars AI ticket deflection saves you per year." />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="https://convot.io" target="_blank" rel="noopener">Convot</a>
+  <span class="nav-links">
+    <a href="./">Resolution Cost</a>
+    <a href="./cost-of-slow-support.html">Slow-Support Cost</a>
+    <a href="./ai-savings.html" aria-current="page">AI Savings</a>
+  </span>
+</nav>
+<div class="wrap">
+  <header>
+    <h1>AI Support Savings Calculator</h1>
+    <p class="sub">Every ticket AI resolves is time your team doesn't spend. See the hours, headcount and cost that deflection frees up in a year.</p>
+  </header>
+
+  <div class="card">
+    <h2>Your support load</h2>
+    <div class="row">
+      <label>Monthly support tickets
+        <small>Total conversations your team handles</small>
+      </label>
+      <input type="number" id="tickets" value="2000" min="0" step="100" />
+    </div>
+    <div class="row">
+      <label>Avg time a human spends per ticket
+        <small>Minutes, including context-switching</small>
+      </label>
+      <input type="number" id="mins" value="8" min="0" step="1" />
+    </div>
+    <div>
+      <div class="slider-head">
+        <label style="font-weight:500">Share AI can resolve or deflect</label>
+        <span class="slider-val" id="deflectVal">50%</span>
+      </div>
+      <input type="range" id="deflect" min="0" max="100" value="50" />
+      <div class="note">Repetitive, documented questions — where can I track my order, how do I reset, what's your refund policy.</div>
+    </div>
+    <div class="row" style="margin-top:18px">
+      <label>Fully-loaded cost per agent / year
+        <small>Salary + tools + overhead</small>
+      </label>
+      <input type="number" id="cost" value="45000" min="0" step="1000" />
+    </div>
+  </div>
+
+  <div class="card result">
+    <h2>What AI deflection frees up</h2>
+    <div class="big" id="hoursYr">—</div>
+    <div class="line">agent hours saved per year</div>
+    <div class="stat-grid">
+      <div class="stat"><span class="v" id="fte">—</span><span class="k">full-time equivalents</span></div>
+      <div class="stat"><span class="v" id="dollars">—</span><span class="k">capacity value / year</span></div>
+      <div class="stat"><span class="v" id="perMo">—</span><span class="k">tickets deflected / mo</span></div>
+    </div>
+    <a class="cta" href="https://convot.io" rel="noopener" target="_blank">Deflect tickets with Convot →</a>
+    <p class="note">Assumes ~1,800 productive hours per agent-year. Convot resolves the repetitive tickets with grounded AI — <a href="https://convot.io" rel="noopener" target="_blank">free under $1k MRR</a>.</p>
+  </div>
+
+  <footer>
+    A free tool by <a href="https://convot.io" rel="noopener" target="_blank">Convot</a> — grounded AI support that gives your team its hours back.
+  </footer>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const HRS_PER_FTE = 1800;
+
+  function compute(){
+    const tickets = Math.max(0, +$("tickets").value || 0);
+    const mins = Math.max(0, +$("mins").value || 0);
+    const deflect = +$("deflect").value;
+    $("deflectVal").textContent = deflect + "%";
+    const cost = Math.max(0, +$("cost").value || 0);
+
+    const deflectedMo = tickets * deflect/100;
+    const hoursYr = deflectedMo * mins * 12 / 60;
+    const fte = hoursYr / HRS_PER_FTE;
+    const dollars = fte * cost;
+
+    $("hoursYr").innerHTML = "<span>" + Math.round(hoursYr).toLocaleString("en-US") + "</span>";
+    $("fte").textContent = fte.toFixed(1);
+    $("dollars").textContent = "$" + Math.round(dollars).toLocaleString("en-US");
+    $("perMo").textContent = Math.round(deflectedMo).toLocaleString("en-US");
+  }
+  ["tickets","mins","deflect","cost"].forEach(id => $(id).addEventListener("input", compute));
+  compute();
+</script>
+</body>
+</html>

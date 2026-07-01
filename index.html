@@ -9,67 +9,17 @@
 <meta property="og:title" content="AI Support Cost Calculator — What You Really Pay Per Resolution" />
 <meta property="og:description" content="See your true annual cost per AI-resolved support ticket across Intercom Fin, Zendesk and Convot. Free, no signup." />
 <meta property="og:type" content="website" />
-<style>
-  :root{
-    --bg:#f6f7fb; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
-    --line:#e6e8f0; --accent:#4f46e5; --accent-soft:#eef0ff;
-    --good:#059669; --good-soft:#e7f7f0; --warn:#dc2626;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.5;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:760px;margin:0 auto;padding:40px 20px 64px}
-  header{text-align:center;margin-bottom:28px}
-  h1{font-size:30px;line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
-  .sub{color:var(--muted);font-size:16px;margin:0 auto;max-width:540px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
-    padding:24px;margin-bottom:18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;
-    color:var(--muted);margin:0 0 16px;font-weight:600}
-  .row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:14px 0}
-  label{font-weight:500;font-size:15px}
-  label small{display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:2px}
-  input[type=number]{width:130px;padding:10px 12px;border:1px solid var(--line);
-    border-radius:10px;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
-  input[type=number]:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
-  input[type=range]{width:100%;accent-color:var(--accent)}
-  .slider-head{display:flex;justify-content:space-between;margin-bottom:6px}
-  .slider-val{font-weight:600;color:var(--accent)}
-  table{width:100%;border-collapse:collapse}
-  th,td{text-align:right;padding:12px 8px;font-variant-numeric:tabular-nums}
-  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
-  td:first-child,th:first-child{text-align:left}
-  tbody tr{border-bottom:1px solid var(--line)}
-  tbody tr:last-child{border-bottom:none}
-  .tool-name{font-weight:600}
-  .price-in{width:92px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;text-align:right;font-size:14px}
-  .annual{font-weight:600;font-size:15px}
-  .convot-row{background:var(--good-soft)}
-  .convot-row .tool-name{color:var(--good)}
-  .result{background:linear-gradient(180deg,#111827,#0b1120);color:#fff;border:none;text-align:center}
-  .result h2{color:#9aa4b8}
-  .result .big{font-size:44px;font-weight:700;letter-spacing:-.02em;margin:6px 0;color:#fff}
-  .result .big span{color:#5eead4}
-  .result .line{color:#cbd5e1;font-size:15px;margin:6px 0}
-  .result .line b{color:#fff}
-  .bars{margin:22px auto 4px;max-width:460px;text-align:left}
-  .bar-item{margin:10px 0}
-  .bar-label{display:flex;justify-content:space-between;font-size:13px;color:#cbd5e1;margin-bottom:4px}
-  .bar-track{background:rgba(255,255,255,.1);border-radius:8px;height:16px;overflow:hidden}
-  .bar-fill{height:100%;border-radius:8px;transition:width .3s ease}
-  .cta{display:inline-block;margin-top:22px;background:#5eead4;color:#062b25;
-    font-weight:700;padding:14px 26px;border-radius:12px;text-decoration:none;font-size:16px}
-  .cta:hover{background:#7ff0dd}
-  .note{color:var(--muted);font-size:13px;margin-top:14px}
-  .note a{color:var(--accent)}
-  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:32px}
-  footer a{color:var(--accent);text-decoration:none;font-weight:600}
-  .free-badge{display:inline-block;background:var(--good-soft);color:var(--good);
-    font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;margin-left:6px}
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<nav class="nav">
+  <a class="brand" href="https://convot.io" target="_blank" rel="noopener">Convot</a>
+  <span class="nav-links">
+    <a href="./" aria-current="page">Resolution Cost</a>
+    <a href="./cost-of-slow-support.html">Slow-Support Cost</a>
+    <a href="./ai-savings.html">AI Savings</a>
+  </span>
+</nav>
 <div class="wrap">
   <header>
     <h1>AI Support Cost Calculator</h1>
@@ -127,7 +77,7 @@
     <div class="line">The same volume on Convot: <b id="cvCost">—</b> — you keep <span id="savings" style="color:#5eead4;font-weight:700">—</span> a year.</div>
     <div class="bars" id="bars"></div>
     <a class="cta" href="https://convot.io" rel="noopener" target="_blank">See how Convot prices support →</a>
-    <p class="note" style="color:#94a3b8">Numbers are list-price estimates you can edit above. Convot is <a href="https://convot.io" rel="noopener" target="_blank" style="color:#5eead4">free until you pass $1,000 MRR</a>.</p>
+    <p class="note">Numbers are list-price estimates you can edit above. Convot is <a href="https://convot.io" rel="noopener" target="_blank">free until you pass $1,000 MRR</a>.</p>
   </div>
 
   <footer>
@@ -156,7 +106,6 @@
     $("a_zd").textContent  = fmt(aZd);
     $("a_cv").textContent  = fmt(aCv);
 
-    // compare against the pricier of the two competitors
     const comp = aZd >= aFin ? {name:"Zendesk AI", cost:aZd} : {name:"Intercom Fin", cost:aFin};
     $("compName").textContent = comp.name;
     $("compCost").innerHTML = "<span>" + fmt(comp.cost) + "</span> / year";
@@ -172,9 +121,7 @@
       bar("Zendesk AI", aZd, "#f472b6") +
       bar("Convot", aCv, "#5eead4");
   }
-
-  ["volume","deflect","p_fin","p_zd","p_cv"].forEach(id =>
-    $(id).addEventListener("input", compute));
+  ["volume","deflect","p_fin","p_zd","p_cv"].forEach(id => $(id).addEventListener("input", compute));
   compute();
 </script>
 </body>

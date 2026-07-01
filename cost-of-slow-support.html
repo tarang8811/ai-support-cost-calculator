@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cost of Slow Support Calculator — Revenue You Lose to Slow Replies</title>
+<meta name="description" content="Free calculator: estimate the annual revenue you lose to slow first-response times in support. Adjust your volume, response time and customer value to see what speed is worth." />
+<link rel="canonical" href="https://tarang8811.github.io/ai-support-cost-calculator/cost-of-slow-support.html" />
+<meta property="og:title" content="Cost of Slow Support Calculator" />
+<meta property="og:description" content="See the annual revenue you lose to slow support replies — and what faster response is worth." />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="https://convot.io" target="_blank" rel="noopener">Convot</a>
+  <span class="nav-links">
+    <a href="./">Resolution Cost</a>
+    <a href="./cost-of-slow-support.html" aria-current="page">Slow-Support Cost</a>
+    <a href="./ai-savings.html">AI Savings</a>
+  </span>
+</nav>
+<div class="wrap">
+  <header>
+    <h1>Cost of Slow Support</h1>
+    <p class="sub">Slow first replies quietly cost you deals. Estimate the annual revenue leaking out of your inbox — and what near-instant response is worth.</p>
+  </header>
+
+  <div class="card">
+    <h2>Your support &amp; sales</h2>
+    <div class="row">
+      <label>Monthly support conversations
+        <small>Chats, tickets or emails per month</small>
+      </label>
+      <input type="number" id="volume" value="2000" min="0" step="100" />
+    </div>
+    <div>
+      <div class="slider-head">
+        <label style="font-weight:500">Share that influences a purchase</label>
+        <span class="slider-val" id="atRiskVal">25%</span>
+      </div>
+      <input type="range" id="atRisk" min="0" max="100" value="25" />
+      <div class="note">Pre-sale questions, upgrades, at-risk renewals — conversations where a reply affects revenue.</div>
+    </div>
+    <div class="row" style="margin-top:18px">
+      <label>Current avg first-response time
+        <small>Hours until a human first replies</small>
+      </label>
+      <input type="number" id="respHrs" value="6" min="0" step="0.5" />
+    </div>
+    <div class="row">
+      <label>Average revenue per customer
+        <small>One deal / annual value of a customer</small>
+      </label>
+      <input type="number" id="value" value="300" min="0" step="10" />
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Assumptions <span style="text-transform:none;font-weight:400">— tune to your business</span></h2>
+    <div class="row">
+      <label>Win rate with a fast (&lt;1h) response</label>
+      <span>$<input class="price-in" type="number" id="baseConv" value="15" step="1" min="0" style="width:70px" />%</span>
+    </div>
+    <div class="row">
+      <label>Conversion lost per extra hour of delay</label>
+      <span><input class="price-in" type="number" id="lossHr" value="6" step="1" min="0" style="width:70px" />%</span>
+    </div>
+  </div>
+
+  <div class="card result">
+    <h2>Revenue at risk from slow replies</h2>
+    <div class="big" id="lossYr">—</div>
+    <div class="line">per year — roughly <b id="lostDeals">—</b> deals lost to waiting, out of <b id="potDeals">—</b> you'd win with a fast reply.</div>
+    <div class="stat-grid">
+      <div class="stat"><span class="v" id="lostMo">—</span><span class="k">at risk / month</span></div>
+      <div class="stat"><span class="v" id="lostPct">—</span><span class="k">of winnable revenue lost</span></div>
+    </div>
+    <a class="cta" href="https://convot.io" rel="noopener" target="_blank">Reply in seconds with Convot →</a>
+    <p class="note">Responding within an hour makes you <b>~7×</b> more likely to win a lead (HBR). AI that answers instantly recovers most of this. <a href="https://convot.io" rel="noopener" target="_blank">See Convot</a>.</p>
+  </div>
+
+  <footer>
+    A free tool by <a href="https://convot.io" rel="noopener" target="_blank">Convot</a> — grounded AI support that answers the moment a customer asks.
+  </footer>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const money = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+  function compute(){
+    const vol = Math.max(0, +$("volume").value || 0);
+    const atRisk = +$("atRisk").value;
+    $("atRiskVal").textContent = atRisk + "%";
+    const respHrs = Math.max(0, +$("respHrs").value || 0);
+    const value = Math.max(0, +$("value").value || 0);
+    const baseConv = Math.max(0, +$("baseConv").value || 0) / 100;
+    const lossHr = Math.max(0, +$("lossHr").value || 0) / 100;
+
+    const impactfulYr = vol * 12 * (atRisk/100);
+    const potentialDeals = impactfulYr * baseConv;          // winnable with fast reply
+    const delay = Math.max(0, respHrs - 1);
+    const lostFraction = Math.min(0.9, delay * lossHr);
+    const lostDeals = potentialDeals * lostFraction;
+    const lossYr = lostDeals * value;
+
+    $("lossYr").innerHTML = "<span>" + money(lossYr) + "</span>";
+    $("lostDeals").textContent = Math.round(lostDeals).toLocaleString("en-US");
+    $("potDeals").textContent = Math.round(potentialDeals).toLocaleString("en-US");
+    $("lostMo").textContent = money(lossYr/12);
+    $("lostPct").textContent = Math.round(lostFraction*100) + "%";
+  }
+  ["volume","atRisk","respHrs","value","baseConv","lossHr"].forEach(id => $(id).addEventListener("input", compute));
+  compute();
+</script>
+</body>
+</html>
