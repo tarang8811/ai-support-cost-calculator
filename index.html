@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Support Cost Calculator — What You Really Pay Per Resolution</title>
+<meta name="description" content="Free calculator: see what you actually pay per AI-resolved support ticket across Intercom Fin, Zendesk and Convot. Edit the prices, get your annual resolution bill in seconds." />
+<link rel="canonical" href="https://tarang8811.github.io/ai-support-cost-calculator/" />
+<meta property="og:title" content="AI Support Cost Calculator — What You Really Pay Per Resolution" />
+<meta property="og:description" content="See your true annual cost per AI-resolved support ticket across Intercom Fin, Zendesk and Convot. Free, no signup." />
+<meta property="og:type" content="website" />
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+    --line:#e6e8f0; --accent:#4f46e5; --accent-soft:#eef0ff;
+    --good:#059669; --good-soft:#e7f7f0; --warn:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 20px 64px}
+  header{text-align:center;margin-bottom:28px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:16px;margin:0 auto;max-width:540px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:24px;margin-bottom:18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--muted);margin:0 0 16px;font-weight:600}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:14px 0}
+  label{font-weight:500;font-size:15px}
+  label small{display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:2px}
+  input[type=number]{width:130px;padding:10px 12px;border:1px solid var(--line);
+    border-radius:10px;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=number]:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .slider-head{display:flex;justify-content:space-between;margin-bottom:6px}
+  .slider-val{font-weight:600;color:var(--accent)}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:right;padding:12px 8px;font-variant-numeric:tabular-nums}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+  td:first-child,th:first-child{text-align:left}
+  tbody tr{border-bottom:1px solid var(--line)}
+  tbody tr:last-child{border-bottom:none}
+  .tool-name{font-weight:600}
+  .price-in{width:92px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;text-align:right;font-size:14px}
+  .annual{font-weight:600;font-size:15px}
+  .convot-row{background:var(--good-soft)}
+  .convot-row .tool-name{color:var(--good)}
+  .result{background:linear-gradient(180deg,#111827,#0b1120);color:#fff;border:none;text-align:center}
+  .result h2{color:#9aa4b8}
+  .result .big{font-size:44px;font-weight:700;letter-spacing:-.02em;margin:6px 0;color:#fff}
+  .result .big span{color:#5eead4}
+  .result .line{color:#cbd5e1;font-size:15px;margin:6px 0}
+  .result .line b{color:#fff}
+  .bars{margin:22px auto 4px;max-width:460px;text-align:left}
+  .bar-item{margin:10px 0}
+  .bar-label{display:flex;justify-content:space-between;font-size:13px;color:#cbd5e1;margin-bottom:4px}
+  .bar-track{background:rgba(255,255,255,.1);border-radius:8px;height:16px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:8px;transition:width .3s ease}
+  .cta{display:inline-block;margin-top:22px;background:#5eead4;color:#062b25;
+    font-weight:700;padding:14px 26px;border-radius:12px;text-decoration:none;font-size:16px}
+  .cta:hover{background:#7ff0dd}
+  .note{color:var(--muted);font-size:13px;margin-top:14px}
+  .note a{color:var(--accent)}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:32px}
+  footer a{color:var(--accent);text-decoration:none;font-weight:600}
+  .free-badge{display:inline-block;background:var(--good-soft);color:var(--good);
+    font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;margin-left:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AI Support Cost Calculator</h1>
+    <p class="sub">Most AI support tools charge <em>per resolution</em>. Plug in your volume to see what that actually costs you per year — and how much of it is avoidable.</p>
+  </header>
+
+  <div class="card">
+    <h2>Your support volume</h2>
+    <div class="row">
+      <label>Monthly support conversations
+        <small>Tickets, chats or emails you handle each month</small>
+      </label>
+      <input type="number" id="volume" value="2000" min="0" step="100" />
+    </div>
+    <div>
+      <div class="slider-head">
+        <label style="font-weight:500">Share handled by AI (deflection)</label>
+        <span class="slider-val" id="deflectVal">50%</span>
+      </div>
+      <input type="range" id="deflect" min="0" max="100" value="50" />
+      <div class="note" id="resLine"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Price per AI resolution <span style="text-transform:none;font-weight:400">— edit to match your quote</span></h2>
+    <table>
+      <thead>
+        <tr><th>Tool</th><th>Per resolution</th><th>Your annual cost</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tool-name">Intercom Fin</td>
+          <td>$<input class="price-in" type="number" id="p_fin" value="0.99" step="0.01" min="0" /></td>
+          <td class="annual" id="a_fin">—</td>
+        </tr>
+        <tr>
+          <td class="tool-name">Zendesk AI <small style="color:var(--muted);font-weight:400">automated resolution</small></td>
+          <td>$<input class="price-in" type="number" id="p_zd" value="1.50" step="0.01" min="0" /></td>
+          <td class="annual" id="a_zd">—</td>
+        </tr>
+        <tr class="convot-row">
+          <td class="tool-name">Convot <span class="free-badge">free under $1k MRR</span></td>
+          <td>$<input class="price-in" type="number" id="p_cv" value="0.20" step="0.01" min="0" /></td>
+          <td class="annual" id="a_cv">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card result">
+    <h2>Your resolution tax</h2>
+    <div class="line">If you route those resolutions through <b id="compName">Intercom Fin</b>, you'd pay</div>
+    <div class="big" id="compCost">—</div>
+    <div class="line">The same volume on Convot: <b id="cvCost">—</b> — you keep <span id="savings" style="color:#5eead4;font-weight:700">—</span> a year.</div>
+    <div class="bars" id="bars"></div>
+    <a class="cta" href="https://convot.io" rel="noopener" target="_blank">See how Convot prices support →</a>
+    <p class="note" style="color:#94a3b8">Numbers are list-price estimates you can edit above. Convot is <a href="https://convot.io" rel="noopener" target="_blank" style="color:#5eead4">free until you pass $1,000 MRR</a>.</p>
+  </div>
+
+  <footer>
+    A free tool by <a href="https://convot.io" rel="noopener" target="_blank">Convot</a> — modern, grounded AI support that doesn't tax you per ticket.
+  </footer>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => "$" + Math.round(n).toLocaleString("en-US");
+
+  function compute(){
+    const vol = Math.max(0, +$("volume").value || 0);
+    const deflect = +$("deflect").value;
+    $("deflectVal").textContent = deflect + "%";
+    const resMo = vol * deflect / 100;
+    const resYr = resMo * 12;
+    $("resLine").textContent = "≈ " + Math.round(resMo).toLocaleString("en-US") +
+      " AI resolutions/month · " + Math.round(resYr).toLocaleString("en-US") + "/year";
+
+    const pFin = +$("p_fin").value || 0;
+    const pZd  = +$("p_zd").value || 0;
+    const pCv  = +$("p_cv").value || 0;
+    const aFin = resYr * pFin, aZd = resYr * pZd, aCv = resYr * pCv;
+    $("a_fin").textContent = fmt(aFin);
+    $("a_zd").textContent  = fmt(aZd);
+    $("a_cv").textContent  = fmt(aCv);
+
+    // compare against the pricier of the two competitors
+    const comp = aZd >= aFin ? {name:"Zendesk AI", cost:aZd} : {name:"Intercom Fin", cost:aFin};
+    $("compName").textContent = comp.name;
+    $("compCost").innerHTML = "<span>" + fmt(comp.cost) + "</span> / year";
+    $("cvCost").textContent = fmt(aCv);
+    $("savings").textContent = fmt(Math.max(0, comp.cost - aCv));
+
+    const max = Math.max(aFin, aZd, aCv, 1);
+    const bar = (label, val, color) =>
+      '<div class="bar-item"><div class="bar-label"><span>'+label+'</span><span>'+fmt(val)+'/yr</span></div>'+
+      '<div class="bar-track"><div class="bar-fill" style="width:'+(val/max*100)+'%;background:'+color+'"></div></div></div>';
+    $("bars").innerHTML =
+      bar("Intercom Fin", aFin, "#818cf8") +
+      bar("Zendesk AI", aZd, "#f472b6") +
+      bar("Convot", aCv, "#5eead4");
+  }
+
+  ["volume","deflect","p_fin","p_zd","p_cv"].forEach(id =>
+    $(id).addEventListener("input", compute));
+  compute();
+</script>
+</body>
+</html>
